@@ -1,0 +1,109 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with personal and 2FA information",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string", "maxLength": 30 },
+        "bio": { "type": "string", "maxLength": 500 },
+        "role": { "type": "string", "maxLength": 100 },
+        "location": { "type": "string", "maxLength": 100 },
+        "avatar": { "type": "string", "maxLength": 500 },
+        "twoFactorEnabled": { "type": "boolean" },
+        "twoFactorSecret": { "type": "string", "maxLength": 100 },
+        "backupCodes": { "type": "array" }
+      },
+      "required": ["id", "name", "email"]
+    },
+    "DiaryEntry": {
+      "title": "DiaryEntry",
+      "description": "Personal diary or engineering log entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "enum": ["FinTech", "Engineering", "Personal", "Ideas", "Security"] },
+        "content": { "type": "string", "maxLength": 10000 },
+        "isPrivate": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "tags": { "type": "array" }
+      },
+      "required": ["id", "userId", "title", "category", "content", "isPrivate"]
+    },
+    "FinancialTransaction": {
+      "title": "FinancialTransaction",
+      "description": "Income or expense financial record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 200 },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "category": { "type": "string", "maxLength": 100 },
+        "date": { "type": "string" },
+        "note": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["id", "userId", "title", "amount", "type", "category", "date"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Chat message sent by visitor or MD Tareq",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string", "maxLength": 100 },
+        "senderRole": { "type": "string", "enum": ["user", "tareq"] },
+        "avatar": { "type": "string", "maxLength": 500 },
+        "text": { "type": "string", "maxLength": 2000 },
+        "timestamp": { "type": "string" },
+        "status": { "type": "string", "enum": ["sent", "delivered", "read"] },
+        "attachmentName": { "type": "string", "maxLength": 200 }
+      },
+      "required": ["id", "senderId", "senderName", "senderRole", "text", "status"]
+    },
+    "SecurityLog": {
+      "title": "SecurityLog",
+      "description": "Audit trail log for authentication and user actions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "action": { "type": "string", "maxLength": 200 },
+        "timestamp": { "type": "string" },
+        "device": { "type": "string", "maxLength": 100 },
+        "ip": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["success", "warning"] }
+      },
+      "required": ["id", "userId", "action", "timestamp", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Stores user profile and two-factor preferences"
+    },
+    "/users/{userId}/diaryEntries/{entryId}": {
+      "schema": { "$ref": "#/entities/DiaryEntry" },
+      "description": "Stores user personal diary entries"
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/FinancialTransaction" },
+      "description": "Stores user financial transactions"
+    },
+    "/users/{userId}/securityLogs/{logId}": {
+      "schema": { "$ref": "#/entities/SecurityLog" },
+      "description": "Stores user security audit logs"
+    },
+    "/chatMessages/{messageId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Stores chat messages for MD Tareq interactive communication"
+    }
+  }
+}

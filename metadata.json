@@ -1,0 +1,6 @@
+{
+  "name": "MD Tareq",
+  "description": "MD Tareq - ব্যক্তিগত প্রোফাইল, চ্যাট, ডায়রী, হিসাব-নিকাশ, টু-ফ্যাক্টর অথেন্টিকেশন এবং ৪টি ব্যাংকিং কার্যক্রমের প্ল্যাটফর্ম।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
